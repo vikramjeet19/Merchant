@@ -8,18 +8,17 @@ class List extends React.Component {
     state = {
         data: []
     }
-    componentDidMount() {
-
-    }
     addNewHandler = () => {
         this.props.history.push('/add')
     }
-
-    detailHandler = () => {
-        console.log('detailhandler clicked')
+    editHandler=(data)=>{
+        this.props.history.push({
+            pathname:'/add',
+            data:data
+        })
     }
     render() {
-        console.log(this.props.vicky)
+        
         return (<Container style={{ marginTop: '20px' }}>
             <Row>
                 <FontAwesomeIcon
@@ -56,7 +55,7 @@ class List extends React.Component {
                                     <FontAwesomeIcon onClick={()=>this.props.onDelete(id.username)}
                                         style={{ marginLeft: '20px', cursor: 'pointer', width: '20px', height: '20px' }}
                                         icon={faTrash} />
-                                    <FontAwesomeIcon onClick={this.deleteHandler}
+                                    <FontAwesomeIcon onClick={()=>this.editHandler(id)}
                                         style={{ marginLeft: '20px', cursor: 'pointer', width: '20px', height: '20px' }}
                                         icon={faEdit} />
                                 </td>

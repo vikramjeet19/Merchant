@@ -10,7 +10,6 @@ const reducer = (state = initialState, action) => {
             merchants: arr
         }
     }
-
     if (action.type === 'status') {
         let vicky = [...state.merchants];
         for (let i = 0; i < vicky.length; i++) {
@@ -34,6 +33,21 @@ const reducer = (state = initialState, action) => {
         for (let i = 0; i < updatedData.length; i++) {
             if (updatedData[i].username === action.payload) {
                 updatedData.splice(i, 1)
+            }
+        }
+        return {
+            merchants: updatedData
+        }
+    }
+    if (action.type === 'edit') {
+        let updatedData = [...state.merchants];
+        for (let i = 0; i < updatedData.length; i++) {
+            if (updatedData[i].username === action.payload.username) {
+                updatedData[i].address = action.payload.address;
+                updatedData[i].state = action.payload.state;
+                updatedData[i].city = action.payload.city
+                updatedData[i].zip = action.payload.zip
+                updatedData[i].description = action.payload.description
             }
         }
         return {
