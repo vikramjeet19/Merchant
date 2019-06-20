@@ -10,7 +10,7 @@ class Login extends React.Component {
     }
     componentDidMount() {
         const data = [
-            { username: 'vicky@gmail.com', password: 'vicky@@19', name: 'Rohit' }]
+            { username: 'vicky@gmail.com', password: 'vicky@@19', name: 'vicky' }]
         localStorage.setItem('data', JSON.stringify(data))
     }
     changeHandler = (event) => {
@@ -21,10 +21,8 @@ class Login extends React.Component {
     submitHandler = event => {
         event.preventDefault();
         let value = JSON.parse(localStorage.getItem('data'));
-        for (let i = 0; i < value.length; i++) {
-            if (value[i].username === this.state.username && value[i].password === this.state.password) {
-                return this.props.history.push('/list');
-            }
+        if (value[0].username === this.state.username && value[0].password === this.state.password) {
+            return this.props.history.push('/list');
         }
         return alert('error')
     }
