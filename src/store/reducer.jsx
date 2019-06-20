@@ -1,6 +1,7 @@
 
 const initialState = {
-    merchants: []
+    merchants: [],
+    
 }
 const reducer = (state = initialState, action) => {
     if (action.type === 'add') {
@@ -11,18 +12,18 @@ const reducer = (state = initialState, action) => {
         }
     }
     if (action.type === 'status') {
-        let vicky = [...state.merchants];
-        for (let i = 0; i < vicky.length; i++) {
-            if (vicky[i].username === action.payload && vicky[i].status === 'Active') {
-                vicky[i].status = 'Deactive'
+        let updatedData = [...state.merchants];
+        for (let i = 0; i < updatedData.length; i++) {
+            if (updatedData[i].username === action.payload.username && updatedData[i].status === 'Active') {
+                updatedData[i].status = 'Deactive';
                 return {
-                    merchants: vicky
+                    merchants: updatedData
                 }
             }
-            if (vicky[i].username === action.payload && vicky[i].status === 'Deactive') {
-                vicky[i].status = 'Active';
+            if (updatedData[i].username === action.payload.username && updatedData[i].status === 'Deactive') {
+                updatedData[i].status = 'Active';
                 return {
-                    merchants: vicky
+                    merchants: updatedData
                 }
             }
         }

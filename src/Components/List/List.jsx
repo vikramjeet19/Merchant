@@ -1,24 +1,32 @@
 import React from 'react';
 import { Table, Container, Button, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash, faPlusCircle, faHistory } from '@fortawesome/free-solid-svg-icons';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+
+
 class List extends React.Component {
-    state = {
-        data: []
+
+    historyHandler = () => {
+        this.props.history.push('/history')
     }
     addNewHandler = () => {
         this.props.history.push('/add')
     }
-    editHandler=(data)=>{
+    editHandler = (data) => {
         this.props.history.push({
-            pathname:'/add',
-            data:data
+            pathname: '/add',
+            data: data
         })
     }
+    timer = () => {
+        let timeStamp = new Date();
+        let date = timeStamp.getFullYear() + '-' + (timeStamp.getMonth() + 1) + '-' + timeStamp.getDate();
+        let time = timeStamp.getHours() + ":" + timeStamp.getMinutes() + ":" + timeStamp.getSeconds();
+        return (date,time)
+    }
     render() {
-        
         return (<Container style={{ marginTop: '20px' }}>
             <Row>
                 <FontAwesomeIcon
@@ -48,16 +56,19 @@ class List extends React.Component {
                                 <td>{id.city}</td>
                                 <td>{id.status}</td>
                                 <td>{id.status === 'Active' ?
-                                    <Button onClick={()=>this.props.onStatus(id.username)} variant="warning">Deactivate</Button> :
-                                    <Button onClick={()=>this.props.onStatus(id.username)} variant="success">Activate</Button>}
+                                    <Button onClick={() => this.props.onStatus(id.username,this.timer())} variant="warning">Deactivate</Button> :
+                                    <Button onClick={() => this.props.onStatus(id.username,this.timer())} variant="success">Activate</Button>}
                                 </td>
                                 <td>
-                                    <FontAwesomeIcon onClick={()=>this.props.onDelete(id.username)}
+                                    <FontAwesomeIcon onClick={() => this.props.onDelete(id.username)}
                                         style={{ marginLeft: '20px', cursor: 'pointer', width: '20px', height: '20px' }}
                                         icon={faTrash} />
-                                    <FontAwesomeIcon onClick={()=>this.editHandler(id)}
+                                    <FontAwesomeIcon onClick={() => this.editHandler(id)}
                                         style={{ marginLeft: '20px', cursor: 'pointer', width: '20px', height: '20px' }}
                                         icon={faEdit} />
+                                    <FontAwesomeIcon onClick={() => this.historyHandler(id.usernames)}
+                                        style={{ marginLeft: '20px', cursor: 'pointer', width: '20px', height: '20px' }}
+                                        icon={faHistory} />
                                 </td>
                             </tr>
                         ))}
@@ -69,13 +80,14 @@ class List extends React.Component {
 }
 const mapStateToProps = state => {
     return {
-        vicky: state.merchants
+        vicky: state.merchants,
+        timer:state.time
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        onStatus: (username) => dispatch({ type: 'status',payload:username }),
-        onDelete: (username) => dispatch({type:'delete' , payload:username})
+        onStatus: (username,time) => dispatch({ type: 'status', payload: {username ,time} }),
+        onDelete: (username) => dispatch({ type: 'delete', payload: username })
     };
 }
 

@@ -15,7 +15,6 @@ class add extends React.Component {
         edit: false
     }
     componentDidMount() {
-
         if (this.props.history.location.data && this.props.history.location.data.length !== 0) {
             let data = this.props.history.location.data;
             this.setState({
