@@ -19,7 +19,7 @@ class List extends React.Component {
         console.log('detailhandler clicked')
     }
     render() {
-        console.log(this.props)
+        console.log(this.props.vicky)
         return (<Container style={{ marginTop: '20px' }}>
             <Row>
                 <FontAwesomeIcon
@@ -42,7 +42,7 @@ class List extends React.Component {
                     </thead>
                     {this.props.vicky && this.props.vicky.length !== 0 ? <tbody>
                         {this.props.vicky.map(id => (
-                            <tr key={id.username} >
+                            <tr key={id.username}>
                                 <td>{id.username}</td>
                                 <td>{id.description}</td>
                                 <td>{id.state}</td>
@@ -53,12 +53,12 @@ class List extends React.Component {
                                     <Button onClick={()=>this.props.onStatus(id.username)} variant="success">Activate</Button>}
                                 </td>
                                 <td>
-                                    <FontAwesomeIcon onClick={this.editHandler}
-                                        style={{ marginLeft: '20px', cursor: 'pointer', width: '20px', height: '20px' }}
-                                        icon={faEdit} />
-                                    <FontAwesomeIcon onClick={this.deleteHandler}
+                                    <FontAwesomeIcon onClick={()=>this.props.onDelete(id.username)}
                                         style={{ marginLeft: '20px', cursor: 'pointer', width: '20px', height: '20px' }}
                                         icon={faTrash} />
+                                    <FontAwesomeIcon onClick={this.deleteHandler}
+                                        style={{ marginLeft: '20px', cursor: 'pointer', width: '20px', height: '20px' }}
+                                        icon={faEdit} />
                                 </td>
                             </tr>
                         ))}
@@ -75,7 +75,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        onStatus: (username) => dispatch({ type: 'status',payload:username })
+        onStatus: (username) => dispatch({ type: 'status',payload:username }),
+        onDelete: (username) => dispatch({type:'delete' , payload:username})
     };
 }
 
