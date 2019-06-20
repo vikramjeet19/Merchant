@@ -1,22 +1,17 @@
 import React from 'react';
 import './Login.css';
-import { Button, Dropdown, DropdownButton, Row, Col } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 
 class Login extends React.Component {
     state = {
         username: '',
         password: '',
-        description: '',
-        status: '',
-        login: false
     }
-
-    DescriptionHander = (data) => {
-        this.setState({description:data})
-       
-    }
-    statusHandler=(data)=>{
-        this.setState({status:data})  
+    componentDidMount() {
+        const data = [
+            { username: 'vicky@gmail.com', password: 'vicky@@19', name: 'Rohit' }]
+        localStorage.setItem('data', JSON.stringify(data))
     }
     changeHandler = (event) => {
         this.setState({
@@ -25,10 +20,15 @@ class Login extends React.Component {
     }
     submitHandler = event => {
         event.preventDefault();
-       
+        let value = JSON.parse(localStorage.getItem('data'));
+        for (let i = 0; i < value.length; i++) {
+            if (value[i].username === this.state.username && value[i].password === this.state.password) {
+                return this.props.history.push('/list');
+            }
+        }
+        return alert('error')
     }
     render() {
-        
         return (<div className='block'>
             <form >
                 <label style={{ position: 'static' }}>Username </label>
@@ -37,26 +37,6 @@ class Login extends React.Component {
                 <label style={{ position: 'static' }}>Password </label>
                 <input className='a' type="password" id='password' placeholder='Password'
                     onChange={this.changeHandler} />
-                <Row  >
-                    <Col>
-                        <DropdownButton style={{ marginTop: '20px' }}
-                            variant='info'
-                            id="description" title="Description">
-                            <Dropdown.Item onClick={() => this.DescriptionHander('Goods')} id='description'>Goods</Dropdown.Item>
-                            <Dropdown.Item onClick={() => this.DescriptionHander('Advertising Services')} id='description'>Advertising Services</Dropdown.Item>
-                            <Dropdown.Item onClick={() => this.DescriptionHander('Computer')}  id='description'>Computer</Dropdown.Item>
-                            <Dropdown.Item onClick={() => this.DescriptionHander('Antique Reproductions')}  id='description'>Antique Reproductions</Dropdown.Item>
-                        </DropdownButton></Col>
-                    <Col>
-                        <DropdownButton style={{ marginTop: '20px', }}
-                            variant='info'
-                            id="status" title="Status">
-                            <Dropdown.Item onClick={() => this.statusHandler('Active')} id='status'>Active</Dropdown.Item>
-                            <Dropdown.Item onClick={() => this.statusHandler('Deactive')}  id='status'>Deactive</Dropdown.Item>
-
-                        </DropdownButton>
-                    </Col>
-                </Row>
                 <Button onClick={this.submitHandler} style={{ margin: '20px', color: '#ccc' }}
                     variant="outline-info">Login</Button>
             </form>
@@ -64,4 +44,4 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default withRouter(Login);
