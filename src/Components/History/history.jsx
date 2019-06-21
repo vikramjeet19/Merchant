@@ -16,7 +16,6 @@ const history = () => {
                     <td>Table cell</td>
                     <td>Table cell</td>
                     <td>Table cell</td>
-                   
                 </tr>
             </tbody>
         </Table>

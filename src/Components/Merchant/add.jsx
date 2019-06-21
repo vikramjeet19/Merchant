@@ -31,8 +31,8 @@ class add extends React.Component {
         return;
     }
     edittedHandler = () => {
-       this.props.onEdit(this.state);
-       this.setState({edit:false});
+        this.props.onEdit(this.state);
+        this.setState({ edit: false });
         this.props.history.push('/list')
     }
     changedHandler = (event) => {
@@ -41,7 +41,8 @@ class add extends React.Component {
         })
     }
     onSumbitHandler = () => {
-        this.props.onAdd(this.state);
+        let time = this.props.history.location.time;
+        this.props.onAdd(this.state, time);
         this.props.history.push('/list');
     }
 
@@ -133,7 +134,7 @@ class add extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAdd: (data) => dispatch({ type: 'add', payload: data }),
+        onAdd: (data, time) => dispatch({ type: 'add', payload: { data, time } }),
         onEdit: (data) => dispatch({ type: 'edit', payload: data })
     };
 }

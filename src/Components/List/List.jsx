@@ -11,26 +11,31 @@ class List extends React.Component {
     historyHandler = () => {
         this.props.history.push('/history')
     }
-    addNewHandler = () => {
-        this.props.history.push('/add')
+    addNewHandler = (time) => {
+        this.props.history.push({
+            pathname:'/add',
+            time:time
+        })
     }
-    editHandler = (data) => {
+    editHandler = (time) => {
+        
         this.props.history.push({
             pathname: '/add',
-            data: data
+            time: time
         })
     }
     timer = () => {
         let timeStamp = new Date();
         let date = timeStamp.getFullYear() + '-' + (timeStamp.getMonth() + 1) + '-' + timeStamp.getDate();
         let time = timeStamp.getHours() + ":" + timeStamp.getMinutes() + ":" + timeStamp.getSeconds();
-        return (date,time)
+        return {date,time}
     }
     render() {
+        console.log(this.props.wholeData)
         return (<Container style={{ marginTop: '20px' }}>
             <Row>
                 <FontAwesomeIcon
-                    onClick={this.addNewHandler}
+                    onClick={()=>this.addNewHandler(this.timer())}
                     style={{ marginTop: '20px', height: '30px', width: '30px', cursor: 'pointer' }} icon={faPlusCircle} />
             </Row>
             <br />
@@ -47,8 +52,8 @@ class List extends React.Component {
                             <th>Edit/Delete</th>
                         </tr>
                     </thead>
-                    {this.props.vicky && this.props.vicky.length !== 0 ? <tbody>
-                        {this.props.vicky.map(id => (
+                    {this.props.reduxState && this.props.reduxState.length !== 0 ? <tbody>
+                        {this.props.reduxState.map(id => (
                             <tr key={id.username}>
                                 <td>{id.username}</td>
                                 <td>{id.description}</td>
@@ -80,8 +85,9 @@ class List extends React.Component {
 }
 const mapStateToProps = state => {
     return {
-        vicky: state.merchants,
-        timer:state.time
+        reduxState: state.merchants,
+        wholeData:state
+        
     }
 }
 const mapDispatchToProps = dispatch => {

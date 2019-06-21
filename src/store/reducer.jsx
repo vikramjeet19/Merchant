@@ -1,29 +1,60 @@
 
 const initialState = {
     merchants: [],
-    
+    user: {
+        name: '',
+        time: [],
+        operation: []
+    }
+
 }
 const reducer = (state = initialState, action) => {
     if (action.type === 'add') {
+        let time=[...state.user.time];
+        let operation =[...state.user.operation];
         const arr = [...state.merchants];
-        arr.push(action.payload);
+        arr.push(action.payload.data);
+        time.push(action.payload.time);
+        operation.push('creation')
         return {
-            merchants: arr
+            merchants: arr,
+            user: {
+                name: action.payload.data.username,
+                time: time,
+                operation: operation
+            }
         }
     }
     if (action.type === 'status') {
+        let time = [...state.user.time];
+        let operation = [...state.user.operation];      
         let updatedData = [...state.merchants];
+
         for (let i = 0; i < updatedData.length; i++) {
             if (updatedData[i].username === action.payload.username && updatedData[i].status === 'Active') {
                 updatedData[i].status = 'Deactive';
+                time.push(action.payload.time);
+                operation.push('Deactivate');
                 return {
-                    merchants: updatedData
+                    merchants: updatedData,
+                    user: {
+                        name: action.payload.username,
+                        time: time,
+                        operation: operation
+                    }
                 }
             }
             if (updatedData[i].username === action.payload.username && updatedData[i].status === 'Deactive') {
                 updatedData[i].status = 'Active';
+                time.push(action.payload.time);
+                operation.push('Activate');
                 return {
-                    merchants: updatedData
+                    merchants: updatedData,
+                    user: {
+                        name: action.payload.username,
+                        time: time,
+                        operation: operation
+                    }
                 }
             }
         }
