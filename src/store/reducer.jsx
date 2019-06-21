@@ -1,17 +1,26 @@
 
 const initialState = {
     merchants: [],
-    user: {
-        name: '',
-        time: [],
-        operation: []
-    }
+    // user: {
+    //     name: '',
+    //     time: [],
+    //     operation: []
+    // },
+
+    user: [
+        {
+            name: '',
+            time: [],
+            operation: []
+        }
+    ]
+
 
 }
 const reducer = (state = initialState, action) => {
     if (action.type === 'add') {
-        let time=[...state.user.time];
-        let operation =[...state.user.operation];
+        let time = [...state.user.time];
+        let operation = [...state.user.operation];
         const arr = [...state.merchants];
         arr.push(action.payload.data);
         time.push(action.payload.time);
@@ -27,7 +36,7 @@ const reducer = (state = initialState, action) => {
     }
     if (action.type === 'status') {
         let time = [...state.user.time];
-        let operation = [...state.user.operation];      
+        let operation = [...state.user.operation];
         let updatedData = [...state.merchants];
 
         for (let i = 0; i < updatedData.length; i++) {

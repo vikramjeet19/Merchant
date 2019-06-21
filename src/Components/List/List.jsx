@@ -8,8 +8,12 @@ import { connect } from 'react-redux';
 
 class List extends React.Component {
 
-    historyHandler = () => {
-        this.props.history.push('/history')
+    historyHandler = (id) => {
+        console.log(id)
+        this.props.history.push({
+            pathname:'/history',
+            id:id
+        })
     }
     addNewHandler = (time) => {
         this.props.history.push({
@@ -31,7 +35,7 @@ class List extends React.Component {
         return {date,time}
     }
     render() {
-        console.log(this.props.wholeData)
+        
         return (<Container style={{ marginTop: '20px' }}>
             <Row>
                 <FontAwesomeIcon
@@ -71,7 +75,7 @@ class List extends React.Component {
                                     <FontAwesomeIcon onClick={() => this.editHandler(id)}
                                         style={{ marginLeft: '20px', cursor: 'pointer', width: '20px', height: '20px' }}
                                         icon={faEdit} />
-                                    <FontAwesomeIcon onClick={() => this.historyHandler(id.usernames)}
+                                    <FontAwesomeIcon onClick={() => this.historyHandler(id.username)}
                                         style={{ marginLeft: '20px', cursor: 'pointer', width: '20px', height: '20px' }}
                                         icon={faHistory} />
                                 </td>
