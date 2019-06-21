@@ -24,7 +24,7 @@ const reducer = (state = initialState, action) => {
             if (updatedData[i].username === action.payload.username && updatedData[i].status === 'Active') {
                 updatedData[i].status = 'Deactive';
                 const timer = {username :updatedData[i].username,
-                    opertaion:'Deactivate',
+                    operation:'Deactivate',
                     time:action.payload.time }
                     userStamp.push(timer)
                 return {
@@ -35,7 +35,7 @@ const reducer = (state = initialState, action) => {
             if (updatedData[i].username === action.payload.username && updatedData[i].status === 'Deactive') {
                 updatedData[i].status = 'Active';
                 const timer = {username :updatedData[i].username,
-                    opertaion:'Activation',
+                    operation:'Activation',
                     time:action.payload.time }
                     userStamp.push(timer)
                 return {
@@ -59,17 +59,24 @@ const reducer = (state = initialState, action) => {
     }
     if (action.type === 'edit') {
         let updatedData = [...state.merchants];
+        const userStamp = [...state.timeStamp]
         for (let i = 0; i < updatedData.length; i++) {
-            if (updatedData[i].username === action.payload.username) {
-                updatedData[i].address = action.payload.address;
-                updatedData[i].state = action.payload.state;
-                updatedData[i].city = action.payload.city
-                updatedData[i].zip = action.payload.zip
-                updatedData[i].description = action.payload.description
+            if (updatedData[i].username === action.payload.data.username) {
+                updatedData[i].address = action.payload.data.address;
+                updatedData[i].state = action.payload.data.state;
+                updatedData[i].city = action.payload.data.city
+                updatedData[i].zip = action.payload.data.zip
+                updatedData[i].description = action.payload.data.description;
+
+                const timer = {username :updatedData[i].username,
+                    operation:'Edited',
+                    time:action.payload.time }
+                    userStamp.push(timer)
             }
         }
         return {
-            merchants: updatedData
+            merchants: updatedData,
+            timeStamp:userStamp
         }
     }
     return state;

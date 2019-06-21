@@ -20,10 +20,11 @@ class List extends React.Component {
             time:time
         })
     }
-    editHandler = (id) => {
+    editHandler = (id,time) => {
         this.props.history.push({
             pathname: '/add',
-            data: id
+            data: id,
+            time:time
         })
     }
     timer = () => {
@@ -33,7 +34,6 @@ class List extends React.Component {
         return {date,time}
     }
     render() {
-        console.log(this.props.timeStamp)
         return (<Container style={{ marginTop: '20px' }}>
             <Row>
                 <FontAwesomeIcon
@@ -73,7 +73,7 @@ class List extends React.Component {
                                     <FontAwesomeIcon onClick={() => this.props.onDelete(id.username)}
                                         style={{ marginLeft: '20px', cursor: 'pointer', width: '20px', height: '20px' }}
                                         icon={faTrash} />
-                                    <FontAwesomeIcon onClick={() => this.editHandler(id)}
+                                    <FontAwesomeIcon onClick={() => this.editHandler(id,this.timer())}
                                         style={{ marginLeft: '20px', cursor: 'pointer', width: '20px', height: '20px' }}
                                         icon={faEdit} />
                                     <FontAwesomeIcon onClick={() => this.historyHandler(id.username)}
