@@ -9,7 +9,6 @@ import { connect } from 'react-redux';
 class List extends React.Component {
 
     historyHandler = (id) => {
-        console.log(id)
         this.props.history.push({
             pathname:'/history',
             id:id
@@ -21,11 +20,10 @@ class List extends React.Component {
             time:time
         })
     }
-    editHandler = (time) => {
-        
+    editHandler = (id) => {
         this.props.history.push({
             pathname: '/add',
-            time: time
+            data: id
         })
     }
     timer = () => {
@@ -35,12 +33,13 @@ class List extends React.Component {
         return {date,time}
     }
     render() {
-        
+        console.log(this.props.timeStamp)
         return (<Container style={{ marginTop: '20px' }}>
             <Row>
                 <FontAwesomeIcon
                     onClick={()=>this.addNewHandler(this.timer())}
-                    style={{ marginTop: '20px', height: '30px', width: '30px', cursor: 'pointer' }} icon={faPlusCircle} />
+                    style={{ marginTop: '20px', height: '30px', width: '30px', cursor: 'pointer' }}
+                     icon={faPlusCircle} />
             </Row>
             <br />
             <Row>
@@ -65,8 +64,10 @@ class List extends React.Component {
                                 <td>{id.city}</td>
                                 <td>{id.status}</td>
                                 <td>{id.status === 'Active' ?
-                                    <Button onClick={() => this.props.onStatus(id.username,this.timer())} variant="warning">Deactivate</Button> :
-                                    <Button onClick={() => this.props.onStatus(id.username,this.timer())} variant="success">Activate</Button>}
+                                    <Button onClick={() => this.props.onStatus(id.username,this.timer())}
+                                     variant="warning">Deactivate</Button> :
+                                    <Button onClick={() => this.props.onStatus(id.username,this.timer())}
+                                     variant="success">Activate</Button>}
                                 </td>
                                 <td>
                                     <FontAwesomeIcon onClick={() => this.props.onDelete(id.username)}
@@ -90,13 +91,12 @@ class List extends React.Component {
 const mapStateToProps = state => {
     return {
         reduxState: state.merchants,
-        wholeData:state
-        
+        timeStamp:state.timeStamp       
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        onStatus: (username,time) => dispatch({ type: 'status', payload: {username ,time} }),
+        onStatus: (username,time) => dispatch({ type: 'status', payload: {username,time} }),
         onDelete: (username) => dispatch({ type: 'delete', payload: username })
     };
 }

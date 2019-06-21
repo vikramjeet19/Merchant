@@ -41,8 +41,8 @@ class add extends React.Component {
         })
     }
     onSumbitHandler = () => {
-        let time = this.props.history.location.time;
-        this.props.onAdd(this.state, time);
+        let time =this.props.history.location.time;
+        this.props.onAdd(this.state,{time,operation:'Creation',username:this.state.username});
         this.props.history.push('/list');
     }
 
@@ -134,7 +134,7 @@ class add extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAdd: (data, time) => dispatch({ type: 'add', payload: { data, time } }),
+        onAdd: (data,time) => dispatch({ type: 'add', payload: { data ,time} }),
         onEdit: (data) => dispatch({ type: 'edit', payload: data })
     };
 }

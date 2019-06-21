@@ -1,69 +1,46 @@
 
 const initialState = {
     merchants: [],
-    // user: {
-    //     name: '',
-    //     time: [],
-    //     operation: []
-    // },
-
-    user: [
-        {
-            name: '',
-            time: [],
-            operation: []
-        }
-    ]
+    timeStamp: []
 
 
 }
 const reducer = (state = initialState, action) => {
     if (action.type === 'add') {
-        let time = [...state.user.time];
-        let operation = [...state.user.operation];
         const arr = [...state.merchants];
+        const userStamp = [...state.timeStamp];
         arr.push(action.payload.data);
-        time.push(action.payload.time);
-        operation.push('creation')
+        userStamp.push(action.payload.time);
         return {
             merchants: arr,
-            user: {
-                name: action.payload.data.username,
-                time: time,
-                operation: operation
-            }
+            timeStamp: userStamp
         }
     }
-    if (action.type === 'status') {
-        let time = [...state.user.time];
-        let operation = [...state.user.operation];
-        let updatedData = [...state.merchants];
 
+    if (action.type === 'status') {
+        let updatedData = [...state.merchants];
+        const userStamp = [...state.timeStamp]
         for (let i = 0; i < updatedData.length; i++) {
             if (updatedData[i].username === action.payload.username && updatedData[i].status === 'Active') {
                 updatedData[i].status = 'Deactive';
-                time.push(action.payload.time);
-                operation.push('Deactivate');
+                const timer = {username :updatedData[i].username,
+                    opertaion:'Deactivate',
+                    time:action.payload.time }
+                    userStamp.push(timer)
                 return {
                     merchants: updatedData,
-                    user: {
-                        name: action.payload.username,
-                        time: time,
-                        operation: operation
-                    }
+                    timeStamp:userStamp
                 }
             }
             if (updatedData[i].username === action.payload.username && updatedData[i].status === 'Deactive') {
                 updatedData[i].status = 'Active';
-                time.push(action.payload.time);
-                operation.push('Activate');
+                const timer = {username :updatedData[i].username,
+                    opertaion:'Activation',
+                    time:action.payload.time }
+                    userStamp.push(timer)
                 return {
                     merchants: updatedData,
-                    user: {
-                        name: action.payload.username,
-                        time: time,
-                        operation: operation
-                    }
+                    timeStamp:userStamp
                 }
             }
         }
